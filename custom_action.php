@@ -8,28 +8,41 @@ if ($mysqli->connect_errno) {
     exit();
 }
 
+## define table name
+$table = "users";
+
 ## define columns
 $columns = array(
     0 => "name",
     1 => "email",
+    2 => "status",
 );
 
-## request with parameters
+## request with parameters, define variables
 $params = array(); $params = $_REQUEST; $where = "";
+$recordsTotal = $recordsFiltered = 0;
 
 ## define conditions
 if (!empty($params['search']['value'])) {
     $where = " WHERE `name` LIKE '%".$params['search']['value']."%' OR `email` LIKE '%".$params['search']['value']."%'";
 }
 
-## fetch data
-$user_result = mysqli_query($mysqli, "SELECT `name`, `email`, `status` FROM users ".$where." ORDER BY ".$columns[$params['order'][0]['column']]." ".$params['order'][0]['dir']." LIMIT ".$params['start'].",".$params['length']."");
+## convert column array to select value
+$select = implode("`, `", $columns);
 
-$recordsTotal = mysqli_num_rows(mysqli_query($mysqli, "SELECT * FROM users ".$where.""));
-$recordsFiltered = mysqli_num_rows(mysqli_query($mysqli, "SELECT * FROM users ".$where.""));
+## fetch data
+$user_result = mysqli_query($mysqli, "SELECT `".$select."` FROM ".$table." ".$where." ORDER BY ".$columns[$params['order'][0]['column']]." ".$params['order'][0]['dir']." LIMIT ".$params['start'].",".$params['length']."");
 
 ## if data found set array for response
+$json_data = array();
 if (mysqli_num_rows($user_result) > 0) {
+
+    ## total count for recordsTotal & recordsFiltered
+    $tot_sql = mysqli_query($mysqli, "SELECT * FROM ".$table." ".$where."");
+    $recordsTotal = mysqli_num_rows($tot_sql);
+    $recordsFiltered = mysqli_num_rows($tot_sql);
+
+    ## fetch data for response
     while ($user_data = mysqli_fetch_row($user_result)) {
         $data = array();
         $data[] = $user_data[0];

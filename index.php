@@ -21,10 +21,10 @@
         <div class="row">
             <h2 class="text-center">Server Side DataTable</h2>
 
-            <div class="row">
+            <div class="row" style="margin-top: 20px;">
                 <div class="col-md-6">
                     <h4 class="text-center">Custom Server Side DataTable</h4>
-                    <table class="table table-bordered table-striped table-sm" id="custom_datatable">
+                    <table class="table table-bordered table-striped table-sm" id="custom_datatable" style="margin-top: 20px;">
                         <thead>
                             <tr>
                                 <th scope="col">Name</th>
@@ -38,7 +38,7 @@
 
                 <div class="col-md-6">
                     <h4 class="text-center">Server Side DataTable</h4>
-                    <table class="table table-bordered table-striped table-sm" id="datatable">
+                    <table class="table table-bordered table-striped table-sm" id="datatable" style="margin-top: 20px;">
                         <thead>
                             <tr>
                                 <th scope="col">Name</th>
@@ -60,6 +60,8 @@
             $('#custom_datatable').DataTable({
                 processing: true,
                 serverSide: true,
+                pageLength : 10,
+                lengthMenu: [ 10, 25, 50, 75, 100 ],
                 ajax:({
                     url: "custom_action.php",
                     type: "post",
@@ -74,6 +76,8 @@
             $('#datatable').DataTable({
                 processing: true,
                 serverSide: true,
+                pageLength : 10,
+                lengthMenu: [ 10, 25, 50, 75, 100 ],
                 ajax: ({
                     url: "datatable_action.php",
                     datatype: "json",
