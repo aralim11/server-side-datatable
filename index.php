@@ -19,29 +19,63 @@
 <body>
     <div class="container">
         <div class="row">
-            <div class="col-md-12">
-                <h2 class="text-center">Server Side DataTable</h2>
-                <table class="table table-bordered table-striped table-sm" id="datatable">
-                    <thead>
-                        <tr>
-                            <th scope="col">Name</th>
-                            <th scope="col">Email</th>
-                        </tr>
-                    </thead>
-                    
-                </table>
+            <h2 class="text-center">Server Side DataTable</h2>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <h4 class="text-center">Custom Server Side DataTable</h4>
+                    <table class="table table-bordered table-striped table-sm" id="custom_datatable">
+                        <thead>
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Status</th>
+                            </tr>
+                        </thead>
+                
+                    </table>
+                </div>
+
+                <div class="col-md-6">
+                    <h4 class="text-center">Server Side DataTable</h4>
+                    <table class="table table-bordered table-striped table-sm" id="datatable">
+                        <thead>
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Status</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
         $(document).ready(function () {
-            $('#datatable').DataTable({
+            /*
+            * Custom server side dataTable
+            */
+            $('#custom_datatable').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax:({
-                    url: "action.php",
+                    url: "custom_action.php",
                     type: "post",
+                    datatype: "json",
+                })
+            });
+
+            
+            /*
+            * server side dataTable
+            */
+            $('#datatable').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: ({
+                    url: "datatable_action.php",
                     datatype: "json",
                 })
             });
